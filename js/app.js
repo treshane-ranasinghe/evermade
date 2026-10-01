@@ -38,7 +38,7 @@
       word.appendChild(mask);
     });
   });
-  $$('.hero__title .char').forEach((c, i) => { c.style.transitionDelay = (0.35 + i * 0.035) + 's'; });
+  $$('.hero__title .char').forEach((c, i) => { c.style.transitionDelay = (0.15 + i * 0.02) + 's'; });
 
   /* ---------- Preloader ---------- */
   const start = performance.now();
@@ -51,8 +51,8 @@
         document.body.classList.add('is-ready');
         runCounters();
         // after the intro zoom, let scroll parallax drive the hero image directly
-        setTimeout(() => { heroImg.style.transition = 'none'; heroIntroDone = true; onScroll(); }, 2700);
-      }, 1350); // start the hero intro as the loader's curtain lifts
+        setTimeout(() => { heroImg.style.transition = 'none'; heroIntroDone = true; onScroll(); }, 1800);
+      }, 1000); // start the hero intro just before the loader's curtain lifts
     }, reduceMotion ? 0 : wait);
   };
   let loaded = false;
@@ -64,7 +64,7 @@
   function runCounters() {
     $$('[data-count]').forEach(el => {
       const target = +el.dataset.count, suffix = el.dataset.suffix || '';
-      const dur = 1800, t0 = performance.now();
+      const dur = 1200, t0 = performance.now();
       const tick = now => {
         const p = Math.min(1, Math.max(0, (now - t0) / dur));
         const eased = 1 - Math.pow(1 - p, 4);

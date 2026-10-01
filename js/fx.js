@@ -146,32 +146,44 @@
   }
 
   /* ---------- Velocity marquee ---------- */
+  // always flows left; scrolling only adds a burst of speed and a lean
   const track = $('.marquee__track');
-  let half = 0, mx = 0, dir = 1;
+  const MARQUEE_SPEED = reduce ? 28 : 55; // px per second, independent of refresh rate
+  let half = 0, mx = 0;
   const measure = () => { if (track) half = (track.scrollWidth + 32) / 2; };
   measure();
   addEventListener('resize', measure);
   document.fonts?.ready.then(measure);
 
+  /* ---------- Nav turns dark over dark sections ---------- */
+  const nav = $('#nav');
+  const darkZones = $$('.lookbook, .footer');
+
   /* ---------- Main loop ---------- */
   const bar = $('#scrollProgress');
-  let lastY = scrollY, vel = 0;
-  (function loop() {
+  let lastY = scrollY, vel = 0, lastT = performance.now();
+  (function loop(now = performance.now()) {
     const y = scrollY, vh = innerHeight;
+    const dt = Math.min((now - lastT) / 1000, 0.05); // cap so a background tab doesn't jump
+    lastT = now;
     vel += ((y - lastY) - vel) * 0.12;
     lastY = y;
 
     const max = document.documentElement.scrollHeight - vh;
     bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
 
+    const navY = 60;
+    nav.classList.toggle('nav--dark', darkZones.some(z => { const r = z.getBoundingClientRect(); return r.top < navY && r.bottom > navY; }));
+
+    if (track && half) {
+      const boost = reduce ? 0 : Math.min(Math.abs(vel) * 22, 900);
+      mx -= (MARQUEE_SPEED + boost) * dt;
+      if (mx <= -half) mx += half;
+      const skew = reduce ? 0 : clamp(-vel * 0.4, -12, 12);
+      track.style.transform = `translate3d(${mx}px,0,0) skewX(${skew}deg)`;
+    }
+
     if (!reduce) {
-      if (track && half) {
-        if (vel > 0.3) dir = 1; else if (vel < -0.3) dir = -1;
-        mx -= (0.6 + Math.min(Math.abs(vel) * 0.3, 16)) * dir;
-        if (mx <= -half) mx += half;
-        if (mx > 0) mx -= half;
-        track.style.transform = `translate3d(${mx}px,0,0) skewX(${clamp(-vel * 0.4, -12, 12)}deg)`;
-      }
 
       if (y < vh * 1.3 && document.body.classList.contains('is-ready')) {
         heroContent.style.transform = `translate3d(0,${y * 0.22}px,0)`;
