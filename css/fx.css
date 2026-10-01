@@ -334,3 +334,46 @@ input, select, textarea, .newsletter__form input { font-size: 16px; } /* below 1
   .modal__gallery { aspect-ratio: auto; width: 100%; height: min(56vh, 120vw); max-height: none; min-height: 0; }
   .modal__gallery > img { object-position: 50% 15%; }
 }
+
+/* ==========================================================
+   Performance
+   ========================================================== */
+/* decorative loops stop while their section is off screen (toggled in fx.js) */
+.anim-paused, .anim-paused *, .anim-paused *::before, .anim-paused *::after { animation-play-state: paused !important; }
+
+/* keep moving layers on the GPU and isolated from the rest of the page */
+.hero__col-track, .marquee__track, .announce__track, .blob, .pl__card, .hero__float, .hero__badge svg { will-change: transform; }
+.hero__col { contain: paint; }
+.pl__card { contain: layout paint; }
+
+/* skip rendering sections far below the fold until they're near */
+.testimonials, .newsletter, .footer { content-visibility: auto; contain-intrinsic-size: auto 800px; }
+
+/* Phones, tablets and small windows: cheaper equivalents of the costly effects */
+@keyframes plAwayLite {
+  from { transform: translate(calc(-50% + var(--i) * var(--spread)), calc(-50% + var(--a) * 6%)) rotate(calc(var(--i) * 6deg)); opacity: 1; }
+  to   { transform: translate(calc(-50% + var(--i) * var(--spread) * 2.6), calc(-50% + var(--a) * 34%)) rotate(calc(var(--i) * 14deg)) scale(.85); opacity: 0; }
+}
+@media (max-width: 960px), (hover: none), (pointer: coarse) {
+  /* blend modes over moving content are re-composited every frame */
+  .hero__grain { display: none; }
+  .preloader::after { mix-blend-mode: normal; opacity: .05; }
+  /* blur filters animated per frame -> plain fades */
+  .preloader.is-done .pl__card { animation-name: plAwayLite; }
+  .tslide, .tslide.is-active { filter: none; }
+  /* live backdrop blur behind moving / bobbing elements -> solid frosted fills */
+  .hero__float, .glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 252, 247, .88); }
+  .card__badge, .card__wish, .card__quick, .modal__close, .toast { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .card__badge, .card__wish { background: rgba(255, 252, 247, .9); }
+  .card__badge--sale { background: var(--ink); }
+  .toast { background: rgba(27, 23, 20, .94); }
+  .overlay, .modal__backdrop { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(27, 23, 20, .55); }
+  .cart { -webkit-backdrop-filter: none; backdrop-filter: none; background: #f8f3ec; }
+  /* the fixed nav keeps its glass, with a lighter blur and no sweeping sheen */
+  .nav__glass { -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); }
+  .nav__glass::after { display: none; }
+  /* clip-path wipes repaint every frame on mobile GPUs -> rely on the fade-up */
+  .card .card__media, .coll .coll__img, .story__media .story__img { clip-path: none; transition: none; }
+  .card .card__media img.main { scale: 1; }
+  .blob { filter: blur(44px); }
+}

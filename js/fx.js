@@ -22,6 +22,17 @@
     requestAnimationFrame(tick);
   }
 
+  /* ---------- Remove the loader once its curtain has lifted ---------- */
+  const preloader = $('#preloader');
+  if (preloader) {
+    const done = new MutationObserver(() => {
+      if (!preloader.classList.contains('is-done')) return;
+      done.disconnect();
+      setTimeout(() => preloader.remove(), 2600); // after the curtain transition
+    });
+    done.observe(preloader, { attributes: true, attributeFilter: ['class'] });
+  }
+
   /* ---------- Smooth scroll ---------- */
   let lenis = null;
   if (!reduce && window.Lenis) {
@@ -93,10 +104,10 @@
     const s = document.createElement('span'); s.className = 'mw'; s.textContent = text; return s;
   }) : [];
   let lastLit = -1;
-  function updateManifesto(vh) {
-    const r = manifesto.getBoundingClientRect();
-    if (r.bottom < -vh || r.top > vh * 2) return;
-    const p = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.15), 0, 1);
+  function updateManifesto(vh, y) {
+    const top = layout.manTop - y, h = layout.manH; // cached position, no layout read
+    if (top + h < -vh || top > vh * 2) return;
+    const p = clamp((vh * 0.82 - top) / (h + vh * 0.15), 0, 1);
     const lit = Math.round(p * mUnits.length);
     if (lit === lastLit) return;
     lastLit = lit;
@@ -159,49 +170,95 @@
   const nav = $('#nav');
   const darkZones = $$('.lookbook, .footer');
 
+  /* ---------- Cached layout ----------
+     Section positions are measured only when the page size changes, so the
+     frame loop never reads layout after writing styles (no forced reflows). */
+  const layout = { max: 0, zones: [], manTop: 0, manH: 0, mqTop: 0, mqH: 0 };
+  const marqueeSection = track && track.parentElement;
+  function measureLayout() {
+    const sy = scrollY;
+    const abs = el => { const r = el.getBoundingClientRect(); return [r.top + sy, r.height]; };
+    layout.max = document.documentElement.scrollHeight - innerHeight;
+    layout.zones = darkZones.map(z => { const [t, h] = abs(z); return [t, t + h]; });
+    if (manifesto) [layout.manTop, layout.manH] = abs(manifesto);
+    if (marqueeSection) [layout.mqTop, layout.mqH] = abs(marqueeSection);
+    measure();
+    prevY = -1; // force a refresh on the next frame
+  }
+  let measureQueued = false;
+  const queueMeasure = () => {
+    if (measureQueued) return;
+    measureQueued = true;
+    requestAnimationFrame(() => { measureQueued = false; measureLayout(); });
+  };
+  addEventListener('resize', queueMeasure);
+  addEventListener('load', queueMeasure);
+  if (window.ResizeObserver) new ResizeObserver(queueMeasure).observe(document.body);
+
   /* ---------- Main loop ---------- */
   const bar = $('#scrollProgress');
-  let lastY = scrollY, vel = 0, lastT = performance.now();
+  const spotOn = fine && !reduce && !!gallery;
+  let lastY = scrollY, prevY = -1, vel = 0, lastT = performance.now(), heroParked = false;
+  measureLayout();
+
   (function loop(now = performance.now()) {
+    // read phase: only cheap values, never layout
     const y = scrollY, vh = innerHeight;
     const dt = Math.min((now - lastT) / 1000, 0.05); // cap so a background tab doesn't jump
     lastT = now;
     vel += ((y - lastY) - vel) * 0.12;
     lastY = y;
 
-    const max = document.documentElement.scrollHeight - vh;
-    bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+    // write phase
+    if (y !== prevY) {
+      prevY = y;
+      bar.style.transform = `scaleX(${layout.max > 0 ? clamp(y / layout.max, 0, 1) : 0})`;
+      const navLine = y + 60;
+      nav.classList.toggle('nav--dark', layout.zones.some(([t, b]) => t < navLine && b > navLine));
 
-    const navY = 60;
-    nav.classList.toggle('nav--dark', darkZones.some(z => { const r = z.getBoundingClientRect(); return r.top < navY && r.bottom > navY; }));
+      if (!reduce && document.body.classList.contains('is-ready')) {
+        if (y < vh * 1.3) {
+          heroParked = false;
+          heroContent.style.transform = `translate3d(0,${y * 0.22}px,0)`;
+          heroContent.style.opacity = clamp(1 - y / (vh * 0.85), 0, 1);
+          heroVisual.style.transform = `translate3d(0,${y * 0.08}px,0)`;
+        } else if (!heroParked) {
+          heroParked = true; // settle once, then stop touching the hero
+          heroContent.style.opacity = 0;
+        }
+      }
+      if (manifesto && !reduce) updateManifesto(vh, y);
+    }
 
+    // marquee always advances, but only paints while it's on screen
     if (track && half) {
       const boost = reduce ? 0 : Math.min(Math.abs(vel) * 22, 900);
       mx -= (MARQUEE_SPEED + boost) * dt;
       if (mx <= -half) mx += half;
-      const skew = reduce ? 0 : clamp(-vel * 0.4, -12, 12);
-      track.style.transform = `translate3d(${mx}px,0,0) skewX(${skew}deg)`;
+      const onScreen = layout.mqTop - y < vh && layout.mqTop + layout.mqH - y > 0;
+      if (onScreen) {
+        const skew = reduce ? 0 : clamp(-vel * 0.4, -12, 12);
+        track.style.transform = `translate3d(${mx.toFixed(2)}px,0,0) skewX(${skew.toFixed(2)}deg)`;
+      }
     }
 
-    if (!reduce) {
-
-      if (y < vh * 1.3 && document.body.classList.contains('is-ready')) {
-        heroContent.style.transform = `translate3d(0,${y * 0.22}px,0)`;
-        heroContent.style.opacity = clamp(1 - y / (vh * 0.85), 0, 1);
-        heroVisual.style.transform = `translate3d(0,${y * 0.08}px,0)`;
-      }
-
-      if (gallery) {
-        spot.x += (spot.tx - spot.x) * 0.1;
-        spot.y += (spot.ty - spot.y) * 0.1;
-        spot.r += (spot.tr - spot.r) * 0.06;
+    // spotlight: mouse devices only, and only while it is still moving
+    if (spotOn) {
+      const dx = spot.tx - spot.x, dy = spot.ty - spot.y, dr = spot.tr - spot.r;
+      if (Math.abs(dx) + Math.abs(dy) + Math.abs(dr) > 0.5) {
+        spot.x += dx * 0.1; spot.y += dy * 0.1; spot.r += dr * 0.06;
         gallery.style.setProperty('--mx', spot.x + 'px');
         gallery.style.setProperty('--my', spot.y + 'px');
         gallery.style.setProperty('--mr', spot.r + 'px');
       }
     }
 
-    if (manifesto && !reduce) updateManifesto(vh);
     requestAnimationFrame(loop);
   })();
+
+  /* ---------- Pause decorative loops while off screen ---------- */
+  const pauseIO = new IntersectionObserver(entries => {
+    entries.forEach(en => en.target.classList.toggle('anim-paused', !en.isIntersecting));
+  }, { rootMargin: '100px 0px' });
+  $$('.announce, .hero, .newsletter').forEach(el => pauseIO.observe(el));
 })();

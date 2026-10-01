@@ -210,8 +210,8 @@
         <div class="card__media" data-cursor="View">
           ${badge}
           <button class="card__wish ${wishlist.has(p.id) ? 'is-active' : ''}" aria-label="Add to wishlist">${heartSVG}</button>
-          <img class="main" src="${p.images[0]}" alt="${p.name}" loading="lazy" />
-          <img class="alt" src="${p.images[1] || p.images[0]}" alt="" loading="lazy" />
+          <img class="main" src="${p.images[0]}" alt="${p.name}" loading="lazy" decoding="async" />
+          <img class="alt" src="${p.images[1] || p.images[0]}" alt="" loading="lazy" decoding="async" />
           <div class="card__quick">
             <p>Quick add — select size</p>
             <div class="card__sizes">${p.sizes.map(s => `<button data-size="${s}">${s}</button>`).join('')}</div>
