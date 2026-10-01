@@ -500,7 +500,8 @@
   });
 
   $('#checkoutBtn').addEventListener('click', () => {
-    toast(null, 'Checkout', 'This is a frontend demo — no payment backend connected');
+    if (!cart.length) return;
+    location.href = 'checkout.html';
   });
 
   renderCart();
