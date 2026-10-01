@@ -17,9 +17,11 @@ html.lenis, html.lenis body { height: auto; }
   --w: clamp(112px, 13vw, 196px); --h: calc(var(--w) * 4 / 3); --spread: 84%;
   display: block; overflow: hidden; clip-path: none;
   background: radial-gradient(ellipse 80% 70% at 50% 45%, #33271f 0%, #1d1713 55%, #120e0b 100%);
-  transition: opacity .8s var(--ease) 1s, visibility 0s 1.8s;
+  --expo: cubic-bezier(.85, 0, .15, 1);
+  transition: clip-path 1.1s var(--expo) 1.65s, visibility 0s 2.9s;
 }
-.preloader.is-done { clip-path: none; opacity: 0; visibility: hidden; pointer-events: none; }
+/* final beat: the full-screen cover lifts away like a curtain */
+.preloader.is-done { clip-path: inset(0 0 100% 0); opacity: 1; visibility: hidden; pointer-events: none; }
 .preloader::after { /* film grain */
   content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .1; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -55,19 +57,48 @@ html.lenis, html.lenis body { height: auto; }
   from { transform: translate(-50%, -50%) rotate(calc(var(--r) * 1deg)); }
   to   { transform: translate(calc(-50% + var(--i) * var(--spread)), calc(-50% + var(--a) * 6%)) rotate(calc(var(--i) * 6deg)); }
 }
-/* exit: side cards fly away, the centre photo grows to fill the screen */
+/* exit, act 1: side cards drift off out of focus */
 @keyframes plAway {
-  from { transform: translate(calc(-50% + var(--i) * var(--spread)), calc(-50% + var(--a) * 6%)) rotate(calc(var(--i) * 6deg)); opacity: 1; }
-  to   { transform: translate(calc(-50% + var(--i) * var(--spread) * 3.2), calc(-50% + var(--a) * 40%)) rotate(calc(var(--i) * 16deg)); opacity: 0; }
+  from { transform: translate(calc(-50% + var(--i) * var(--spread)), calc(-50% + var(--a) * 6%)) rotate(calc(var(--i) * 6deg)); opacity: 1; filter: blur(0); }
+  to   { transform: translate(calc(-50% + var(--i) * var(--spread) * 2.6), calc(-50% + var(--a) * 34%)) rotate(calc(var(--i) * 14deg)) scale(.85); opacity: 0; filter: blur(8px); }
 }
-.preloader.is-done .pl__card { animation: plAway .9s var(--ease-in-out) forwards; }
+.preloader.is-done .pl__card { animation: plAway 1s var(--ease-in-out) forwards; }
+
+/* act 2: the centre photo breathes in, then sweeps to full screen */
+@keyframes plDip {
+  0%   { transform: translate(-50%, -50%) scale(1); }
+  22%  { transform: translate(-50%, -50%) scale(.92); }
+  60%, 100% { transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes plSettle {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
 .preloader.is-done .pl__card--main {
-  animation: none; transform: translate(-50%, -50%);
-  width: 100vw; height: 100vh; height: 100lvh; border-radius: 0;
-  transition: width 1.1s var(--ease-in-out), height 1.1s var(--ease-in-out), border-radius 1.1s var(--ease-in-out);
+  animation: plDip 1.5s var(--ease) forwards;
+  width: 100vw; height: 100vh; height: 100lvh; border-radius: 0; box-shadow: none;
+  transition: width 1.25s var(--expo) .3s, height 1.25s var(--expo) .3s, border-radius 1.1s var(--expo) .3s, box-shadow .6s;
 }
-.pl__card--main img { transition: object-position 1.1s var(--ease-in-out), filter 1.1s var(--ease-in-out); }
-.preloader.is-done .pl__card--main img { object-position: 50% 20%; filter: none; }
+.pl__card--main img { transition: object-position 1.25s var(--expo) .3s, filter 1s var(--ease) .35s, translate 1.1s var(--expo) 1.65s; }
+.preloader.is-done .pl__card--main img { animation: plSettle 1.7s var(--ease) forwards; object-position: 50% 6%; filter: none; translate: 0 -14vh; }
+.pl__card--main::after { /* soft bottom shade so the cover caption reads */
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 0% 100%, rgba(18,14,11,.62), transparent 72%), linear-gradient(180deg, rgba(18,14,11,.2) 0%, transparent 22%, transparent 62%, rgba(18,14,11,.4) 100%);
+  opacity: 0; transition: opacity .8s var(--ease) .9s;
+}
+.preloader.is-done .pl__card--main::after { opacity: 1; }
+
+/* act 3: an editorial cover caption, then the curtain lifts */
+.pl__cover {
+  position: absolute; left: var(--gutter); bottom: clamp(36px, 7vh, 72px); z-index: 11;
+  color: var(--ivory); text-shadow: 0 4px 30px rgba(0,0,0,.35); pointer-events: none;
+  opacity: 0; transform: translateY(24px);
+}
+.pl__cover .eyebrow { color: #f1dcbb; }
+.pl__cover strong { display: block; margin-top: 10px; font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 4.2vw, 64px); line-height: 1; letter-spacing: -.02em; }
+.pl__cover strong em { color: var(--ivory); }
+.preloader.is-done .pl__cover { opacity: 1; transform: none; transition: opacity .8s var(--ease) 1.05s, transform 1s var(--ease) 1.05s; }
 
 /* wordmark */
 .pl__brand {
@@ -83,6 +114,8 @@ html.lenis, html.lenis body { height: auto; }
 .pl__mask:nth-child(2) > * { animation-delay: 1.3s; }
 .preloader.is-done .pl__mask > * { animation: plOut .7s var(--ease-in-out) forwards; }
 @keyframes plOut { from { transform: none; } to { transform: translateY(-110%); } }
+/* entrance animations hold opacity, so drop them before fading out */
+.preloader.is-done .pl__frame, .preloader.is-done .pl__label { animation: none; }
 .preloader.is-done .pl__frame, .preloader.is-done .pl__foot, .preloader.is-done .pl__line { opacity: 0; }
 
 @media (max-width: 600px) {

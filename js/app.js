@@ -52,7 +52,7 @@
         runCounters();
         // after the intro zoom, let scroll parallax drive the hero image directly
         setTimeout(() => { heroImg.style.transition = 'none'; heroIntroDone = true; onScroll(); }, 2700);
-      }, 900); // start the hero intro as the loader's zoom dissolves
+      }, 1350); // start the hero intro as the loader's curtain lifts
     }, reduceMotion ? 0 : wait);
   };
   let loaded = false;
