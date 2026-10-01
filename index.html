@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evermade — Women's Clothing</title>
+  <meta name="description" content="Evermade — women’s clothing store. Midi and maxi dresses, mini dresses and co-ord sets in UK sizes 6–20." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/fx.css" />
+</head>
+<body class="is-loading">
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="pl__glow"></div>
+    <div class="pl__frame"><span>Evermade — Clothing Store</span><span>New Season ’26</span></div>
+    <div class="pl__fan">
+      <figure class="pl__card" style="--i:-2;--a:2;--r:-9;--d:0.1s;z-index:1"><img src="assets/images/stripe-bandeau-set.jpg" alt="" /></figure>
+      <figure class="pl__card" style="--i:2;--a:2;--r:8;--d:0.28s;z-index:1"><img src="assets/images/tropicana-mini.jpg" alt="" /></figure>
+      <figure class="pl__card" style="--i:-1;--a:1;--r:-4;--d:0.46s;z-index:2"><img src="assets/images/lemon-midi.jpg" alt="" /></figure>
+      <figure class="pl__card" style="--i:1;--a:1;--r:5;--d:0.64s;z-index:2"><img src="assets/images/ruby-maxi.jpg" alt="" /></figure>
+      <figure class="pl__card pl__card--main" style="--i:0;--a:0;--r:0;--d:0.82s;z-index:3"><img src="assets/images/aura-gown.jpg" alt="" /></figure>
+    </div>
+    <div class="pl__brand"><span class="pl__mask"><span>Ever</span></span><span class="pl__mask"><em>made</em></span></div>
+    <div class="pl__foot">
+      <span class="pl__label">Curating your wardrobe</span>
+      <span class="pl__count"><span id="loadCount">0</span><sup>%</sup></span>
+    </div>
+    <div class="pl__line"><i id="loadLine"></i></div>
+  </div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"><span class="cursor__label"></span></div></div>
+
+  <div class="scroll-progress" aria-hidden="true"><i id="scrollProgress"></i></div>
+
+  <!-- Announcement -->
+  <div class="announce">
+    <div class="announce__track">
+      <span>Complimentary delivery on orders over Rs 15,000</span><span>✦</span>
+      <span>The new season collection is here</span><span>✦</span>
+      <span>Sizes UK 6 – 20</span><span>✦</span>
+      <span>Complimentary delivery on orders over Rs 15,000</span><span>✦</span>
+      <span>The new season collection is here</span><span>✦</span>
+      <span>Sizes UK 6 – 20</span><span>✦</span>
+    </div>
+  </div>
+
+  <!-- Glass navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__glass">
+      <button class="nav__burger" id="burger" aria-label="Open menu"><span></span><span></span></button>
+      <nav class="nav__links nav__links--left">
+        <a href="#shop" data-hover>Shop</a>
+        <a href="#collections" data-hover>Collections</a>
+        <a href="#lookbook" data-hover>Lookbook</a>
+      </nav>
+      <a href="#top" class="nav__logo" data-hover>Evermade</a>
+      <nav class="nav__links nav__links--right">
+        <a href="#story" data-hover>Our Story</a>
+        <button class="nav__icon" id="searchBtn" aria-label="Search" data-hover>
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </button>
+        <button class="nav__icon" id="wishBtn" aria-label="Wishlist" data-hover>
+          <svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.4 7.8 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.6 3.3 4.3 6.7-1.8 4.7-9.3 9.3-9.3 9.3Z"/></svg>
+          <span class="nav__badge" id="wishCount">0</span>
+        </button>
+        <button class="nav__icon nav__cart" id="cartBtn" aria-label="Open cart" data-hover>
+          <svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+          <span class="nav__badge" id="cartCount">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mmenu" id="mmenu">
+    <nav>
+      <a href="#shop">Shop</a>
+      <a href="#collections">Collections</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#story">Our Story</a>
+    </nav>
+    <p>New Season · ’26</p>
+  </div>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__bg">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+        <span class="blob blob--3"></span>
+        <div class="hero__gallery-wrap" id="heroGallery">
+          <div class="hero__gallery" aria-hidden="true">
+            <div class="hero__col hero__col--1"><div class="hero__col-track"><img src="assets/images/aura-gown.jpg" alt="" loading="lazy" /><img src="assets/images/ivory-mini.jpg" alt="" loading="lazy" /><img src="assets/images/lemon-midi.jpg" alt="" loading="lazy" /><img src="assets/images/stripe-shorts-set.jpg" alt="" loading="lazy" /><img src="assets/images/aura-gown.jpg" alt="" loading="lazy" /><img src="assets/images/ivory-mini.jpg" alt="" loading="lazy" /><img src="assets/images/lemon-midi.jpg" alt="" loading="lazy" /><img src="assets/images/stripe-shorts-set.jpg" alt="" loading="lazy" /></div></div>
+            <div class="hero__col hero__col--2"><div class="hero__col-track"><img src="assets/images/tropicana-mini.jpg" alt="" loading="lazy" /><img src="assets/images/polka-midi.jpg" alt="" loading="lazy" /><img src="assets/images/mocha-coord.jpg" alt="" loading="lazy" /><img src="assets/images/red-puff-midi.jpg" alt="" loading="lazy" /><img src="assets/images/tropicana-mini.jpg" alt="" loading="lazy" /><img src="assets/images/polka-midi.jpg" alt="" loading="lazy" /><img src="assets/images/mocha-coord.jpg" alt="" loading="lazy" /><img src="assets/images/red-puff-midi.jpg" alt="" loading="lazy" /></div></div>
+            <div class="hero__col hero__col--3"><div class="hero__col-track"><img src="assets/images/rose-shirt-dress.jpg" alt="" loading="lazy" /><img src="assets/images/slit-maxi-2.jpg" alt="" loading="lazy" /><img src="assets/images/gingham-set.jpg" alt="" loading="lazy" /><img src="assets/images/ruby-maxi.jpg" alt="" loading="lazy" /><img src="assets/images/rose-shirt-dress.jpg" alt="" loading="lazy" /><img src="assets/images/slit-maxi-2.jpg" alt="" loading="lazy" /><img src="assets/images/gingham-set.jpg" alt="" loading="lazy" /><img src="assets/images/ruby-maxi.jpg" alt="" loading="lazy" /></div></div>
+            <div class="hero__col hero__col--4"><div class="hero__col-track"><img src="assets/images/stripe-bandeau-set.jpg" alt="" loading="lazy" /><img src="assets/images/slit-maxi.jpg" alt="" loading="lazy" /><img src="assets/images/aura-gown.jpg" alt="" loading="lazy" /><img src="assets/images/tropicana-mini.jpg" alt="" loading="lazy" /><img src="assets/images/stripe-bandeau-set.jpg" alt="" loading="lazy" /><img src="assets/images/slit-maxi.jpg" alt="" loading="lazy" /><img src="assets/images/aura-gown.jpg" alt="" loading="lazy" /><img src="assets/images/tropicana-mini.jpg" alt="" loading="lazy" /></div></div>
+            <div class="hero__col hero__col--5"><div class="hero__col-track"><img src="assets/images/lemon-midi.jpg" alt="" loading="lazy" /><img src="assets/images/red-puff-midi.jpg" alt="" loading="lazy" /><img src="assets/images/polka-midi.jpg" alt="" loading="lazy" /><img src="assets/images/ivory-mini.jpg" alt="" loading="lazy" /><img src="assets/images/lemon-midi.jpg" alt="" loading="lazy" /><img src="assets/images/red-puff-midi.jpg" alt="" loading="lazy" /><img src="assets/images/polka-midi.jpg" alt="" loading="lazy" /><img src="assets/images/ivory-mini.jpg" alt="" loading="lazy" /></div></div>
+          </div>
+        </div>
+        <div class="hero__grain"></div>
+      </div>
+
+      <div class="hero__content">
+        <p class="eyebrow hero__eyebrow"><span class="line"></span> New Season Collection ’26</p>
+        <h1 class="hero__title">
+          <span class="row"><span class="word" data-split>Grace</span> <em class="word" data-split>woven</em></span>
+          <span class="row"><span class="word" data-split>into</span> <span class="word" data-split>every</span></span>
+          <span class="row"><em class="word word--gold" data-split>thread.</em></span>
+        </h1>
+        <p class="hero__lead">Effortless dresses and co-ords in breathable fabrics and bold prints — designed in small drops for women who dress with intention.</p>
+        <div class="hero__ctas">
+          <a href="#shop" class="btn btn--dark magnetic" data-hover><span>Shop the Collection</span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="#lookbook" class="btn btn--ghost magnetic" data-hover><span>View Lookbook</span></a>
+        </div>
+        <div class="hero__stats">
+          <div><strong data-count="13">0</strong><span>New styles</span></div>
+          <div><strong>6–20</strong><span>UK sizes</span></div>
+          <div><strong data-count="3">0</strong><span>Edits to explore</span></div>
+        </div>
+      </div>
+
+      <div class="hero__visual" id="heroVisual">
+        <div class="hero__arch" data-depth="0.6">
+          <video src="assets/videos/reel-summer-brights.mp4" poster="assets/videos/reel-summer-brights.jpg" muted loop playsinline autoplay preload="auto" aria-label="Evermade new collection reel"></video>
+          <div class="hero__arch-shine"></div>
+        </div>
+        <div class="hero__float hero__float--1 glass" data-depth="1.4" data-product="ruby-button-front-maxi" data-hover>
+          <img src="assets/images/ruby-maxi.jpg" alt="" />
+          <div class="hero__float-info">
+            <small>New In</small>
+            <strong>Ruby Button-Front Maxi</strong>
+            <span>Rs 10,950</span>
+          </div>
+        </div>
+        <div class="hero__badge" data-depth="1">
+          <svg viewBox="0 0 200 200">
+            <defs><path id="circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+            <text><textPath href="#circle">New Collection ✦ Season 2026 ✦ Evermade ✦</textPath></text>
+          </svg>
+          <span>✦</span>
+        </div>
+      </div>
+
+      <a href="#marquee" class="hero__scroll" data-hover>
+        <span>Scroll</span><i></i>
+      </a>
+    </section>
+
+    <!-- Marquee -->
+    <section class="marquee" id="marquee">
+      <div class="marquee__track">
+        <span>Midi</span><em>✦</em><span class="outline">Maxi</span><em>✦</em><span>Co-ords</span><em>✦</em><span class="outline">Prints</span><em>✦</em>
+        <span>Midi</span><em>✦</em><span class="outline">Maxi</span><em>✦</em><span>Co-ords</span><em>✦</em><span class="outline">Prints</span><em>✦</em>
+      </div>
+    </section>
+
+    <!-- Manifesto (words light up on scroll) -->
+    <section class="manifesto" id="manifesto">
+      <p class="eyebrow"><span class="line"></span> The Evermade Way</p>
+      <p class="manifesto__text" id="manifestoText">Evermade is for the woman who dresses with intention <span class="pill"><img src="assets/images/aura-gown.jpg" alt="" /></span> — effortless silhouettes, fabrics that breathe <span class="pill"><img src="assets/images/lemon-midi.jpg" alt="" /></span> and colour that feels like sunshine on your skin. Pieces you will reach for again <span class="pill"><img src="assets/images/polka-midi.jpg" alt="" /></span> and again, made to be <em>remembered.</em></p>
+    </section>
+
+    <!-- Collections -->
+    <section class="collections" id="collections">
+      <div class="section-head reveal">
+        <p class="eyebrow"><span class="line"></span> Curated Edits</p>
+        <h2>Shop by <em>collection</em></h2>
+      </div>
+      <div class="collections__grid">
+        <a href="#shop" class="coll reveal" data-filter-link="midi" data-hover data-cursor="Explore">
+          <div class="coll__img"><video src="assets/videos/reel-navy-midi.mp4" poster="assets/videos/reel-navy-midi.jpg" muted loop playsinline preload="metadata" data-autoplay></video></div>
+          <div class="coll__info"><span>01</span><h3>Midi &amp; Maxi</h3><p>Dresses that move</p></div>
+        </a>
+        <a href="#shop" class="coll coll--tall reveal" data-filter-link="mini" data-hover data-cursor="Explore">
+          <div class="coll__img"><img src="assets/images/tropicana-mini.jpg" alt="Summer Brights" loading="lazy" /></div>
+          <div class="coll__info"><span>02</span><h3>Summer Brights</h3><p>Minis &amp; colour</p></div>
+        </a>
+        <a href="#shop" class="coll reveal" data-filter-link="coords" data-hover data-cursor="Explore">
+          <div class="coll__img"><video src="assets/videos/reel-prints.mp4" poster="assets/videos/reel-prints.jpg" muted loop playsinline preload="metadata" data-autoplay></video></div>
+          <div class="coll__info"><span>03</span><h3>Co-ord Sets</h3><p>Prints &amp; stripes</p></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Shop -->
+    <section class="shop" id="shop">
+      <div class="shop__head">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="line"></span> The Edit</p>
+          <h2>New <em>arrivals</em></h2>
+        </div>
+        <div class="filters reveal" id="filters">
+          <button class="filter is-active" data-filter="all" data-hover>All</button>
+          <button class="filter" data-filter="midi" data-hover>Midi &amp; Maxi</button>
+          <button class="filter" data-filter="mini" data-hover>Mini</button>
+          <button class="filter" data-filter="coords" data-hover>Co-ord Sets</button>
+          <span class="filter__pill" id="filterPill"></span>
+        </div>
+      </div>
+      <div class="products" id="products"></div>
+    </section>
+
+    <!-- Lookbook (horizontal scroll) -->
+    <section class="lookbook" id="lookbook">
+      <div class="lookbook__sticky">
+        <div class="lookbook__intro">
+          <p class="eyebrow"><span class="line"></span> Lookbook ’26</p>
+          <h2>Soft <em>colour,</em><br/>bold presence.</h2>
+          <p>Stripes, prints and easy silhouettes. Six looks, one feeling.</p>
+          <div class="lookbook__progress"><i id="lbProgress"></i></div>
+        </div>
+        <div class="lookbook__track" id="lbTrack">
+          <figure class="look" data-product="rose-stripe-shirt-dress" data-cursor="Shop"><img src="assets/images/rose-shirt-dress.jpg" alt="Rosé Stripe Shirt Dress" loading="lazy"/><figcaption><span>Look 01</span>Rosé Stripe Shirt Dress</figcaption></figure>
+          <figure class="look look--offset" data-product="stripe-bandeau-coord" data-cursor="Shop"><img src="assets/images/stripe-bandeau-set.jpg" alt="Stripe Bandeau Co-ord" loading="lazy"/><figcaption><span>Look 02</span>Stripe Bandeau Co-ord</figcaption></figure>
+          <figure class="look" data-product="polka-strapless-midi" data-cursor="Shop"><img src="assets/images/polka-midi.jpg" alt="Polka Strapless Midi" loading="lazy"/><figcaption><span>Look 03</span>Polka Strapless Midi</figcaption></figure>
+          <figure class="look look--offset" data-product="riviera-stripe-shorts-set" data-cursor="Shop"><img src="assets/images/stripe-shorts-set.jpg" alt="Riviera Shorts Set" loading="lazy"/><figcaption><span>Look 04</span>Riviera Shorts Set</figcaption></figure>
+          <figure class="look" data-product="gingham-tie-set" data-cursor="Shop"><img src="assets/images/gingham-set.jpg" alt="Gingham Tie-Front Set" loading="lazy"/><figcaption><span>Look 05</span>Gingham Tie-Front Set</figcaption></figure>
+          <figure class="look look--offset" data-product="tropicana-puff-mini" data-cursor="Shop"><img src="assets/images/tropicana-mini.jpg" alt="Tropicana Mini" loading="lazy"/><figcaption><span>Look 06</span>Tropicana Mini</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story -->
+    <section class="story" id="story">
+      <div class="story__media reveal">
+        <div class="story__img story__img--main"><img src="assets/images/lemon-midi.jpg" alt="The Evermade Midi" loading="lazy" /></div>
+        <div class="story__img story__img--small"><img src="assets/images/slit-maxi.jpg" alt="" loading="lazy" /></div>
+      </div>
+      <div class="story__text">
+        <p class="eyebrow reveal"><span class="line"></span> Our Story</p>
+        <h2 class="reveal">Made for you.<br/><em>Worn endlessly.</em></h2>
+        <p class="reveal">Evermade is a women’s clothing store built around one idea: getting dressed should feel effortless. Every piece is chosen for its fit, its fabric and how it makes you feel — from easy everyday co-ords to dresses made for your biggest moments.</p>
+        <ul class="story__list">
+          <li class="reveal"><span>01</span><div><strong>Considered fabrics</strong><p>Breathable, comfortable materials made for warm days.</p></div></li>
+          <li class="reveal"><span>02</span><div><strong>Inclusive sizing</strong><p>Every style available in UK sizes 6 to 20.</p></div></li>
+          <li class="reveal"><span>03</span><div><strong>Small-batch drops</strong><p>Limited quantities, so your favourites feel special.</p></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="section-head section-head--center reveal">
+        <p class="eyebrow"><span class="line"></span> Kind Words <span class="line"></span></p>
+        <h2>Loved by <em>women</em> everywhere</h2>
+      </div>
+      <div class="tslider reveal" id="tslider">
+        <div class="tslider__track">
+          <blockquote class="tslide is-active"><p>“I wore the Aura gown to a wedding and could not count the compliments. The fit is beautiful.”</p><cite>Nadeesha P.</cite></blockquote>
+          <blockquote class="tslide"><p>“The Evermade Midi is my new favourite — it has pockets! Arrived beautifully packed, too.”</p><cite>Shalini R.</cite></blockquote>
+          <blockquote class="tslide"><p>“Finally a store with real sizing. My co-ord set fits perfectly and feels so comfortable.”</p><cite>Amaya D.</cite></blockquote>
+        </div>
+        <div class="tslider__dots" id="tdots"><button class="is-active" aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button></div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+      <div class="newsletter__card glass reveal">
+        <span class="blob blob--n1"></span><span class="blob blob--n2"></span>
+        <p class="eyebrow"><span class="line"></span> The Inner Circle</p>
+        <h2>Receive <em>10% off</em> your first order</h2>
+        <p>Early access to new collections, private sales and stories from the atelier.</p>
+        <form class="newsletter__form" id="newsForm">
+          <input type="email" placeholder="Your email address" required aria-label="Email" />
+          <button type="submit" class="btn btn--dark magnetic" data-hover><span>Subscribe</span></button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__big">Evermade</div>
+    <div class="footer__grid">
+      <div><h4>Shop</h4><a href="#shop">New Arrivals</a><a href="#shop" data-filter-link="midi">Midi &amp; Maxi</a><a href="#shop" data-filter-link="mini">Mini Dresses</a><a href="#shop" data-filter-link="coords">Co-ord Sets</a></div>
+      <div><h4>Help</h4><a href="https://wa.me/94725490944" target="_blank" rel="noopener">WhatsApp 0725 490 944</a><a href="#">Delivery</a><a href="#">Size Guide</a><a href="#">Contact</a></div>
+      <div><h4>About</h4><a href="#story">Our Story</a><a href="#lookbook">Lookbook</a><a href="#">Journal</a></div>
+      <div><h4>Follow</h4><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">TikTok</a></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Evermade Clothing Store</span><span>Crafted with intention</span></div>
+  </footer>
+
+  <!-- Cart drawer -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart" id="cart" aria-label="Shopping bag">
+    <div class="cart__head">
+      <h3>Your Bag <span id="cartHeadCount">(0)</span></h3>
+      <button class="cart__close" id="cartClose" aria-label="Close cart" data-hover>
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="cart__ship">
+      <p id="shipText">You're Rs 15,000 away from complimentary delivery</p>
+      <div class="cart__ship-bar"><i id="shipBar"></i></div>
+    </div>
+    <div class="cart__items" id="cartItems" data-lenis-prevent></div>
+    <div class="cart__empty" id="cartEmpty">
+      <svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+      <h4>Your bag is empty</h4>
+      <p>Discover pieces made to be treasured.</p>
+      <a href="#shop" class="btn btn--dark" id="emptyShop" data-hover><span>Start Shopping</span></a>
+    </div>
+    <div class="cart__foot" id="cartFoot">
+      <div class="cart__row"><span>Subtotal</span><strong id="cartSubtotal">Rs 0</strong></div>
+      <div class="cart__row cart__row--muted"><span>Shipping</span><span id="cartShipping">Calculated at checkout</span></div>
+      <button class="btn btn--dark btn--block" id="checkoutBtn" data-hover><span>Checkout</span>
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="cart__secure">🔒 Secure checkout</p>
+    </div>
+  </aside>
+
+  <!-- Quick view modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" data-lenis-prevent>
+      <button class="modal__close" data-close aria-label="Close" data-hover><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="modal__gallery">
+        <img id="mImg" alt="" />
+        <div class="modal__thumbs" id="mThumbs"></div>
+      </div>
+      <div class="modal__info">
+        <p class="eyebrow" id="mCat"></p>
+        <h3 id="mName"></h3>
+        <div class="modal__price" id="mPrice"></div>
+        <div class="modal__rating" id="mRating"></div>
+        <p class="modal__desc" id="mDesc"></p>
+        <div class="opt"><span class="opt__label">Colour — <b id="mColorName"></b></span><div class="swatches" id="mColors"></div></div>
+        <div class="opt"><span class="opt__label">Size (UK) <a href="#" class="opt__guide">Size guide</a></span><div class="sizes" id="mSizes"></div></div>
+        <div class="modal__actions">
+          <div class="qty"><button id="mMinus" aria-label="Decrease">−</button><span id="mQty">1</span><button id="mPlus" aria-label="Increase">+</button></div>
+          <button class="btn btn--dark btn--block" id="mAdd" data-hover><span>Add to Bag</span></button>
+        </div>
+        <ul class="modal__perks">
+          <li>✦ Complimentary delivery over Rs 15,000</li>
+          <li>✦ Available in UK sizes 6 – 20</li>
+          <li>✦ Questions? WhatsApp 0725 490 944</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"><img id="toastImg" alt="" /><div><strong id="toastTitle">Added to bag</strong><span id="toastText"></span></div></div>
+
+  <script src="js/vendor/lenis.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/fx.js"></script>
+</body>
+</html>
